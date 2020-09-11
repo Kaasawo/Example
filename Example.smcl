@@ -1,0 +1,148 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\DELL\Desktop\Gitproject1\Example.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}11 Sep 2020, 14:18:56
+
+{com}. do "C:\Users\DELL\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. sysuse cancer.dta //using example data from stata
+{txt}(Patient Survival in Drug Trial)
+
+{com}. 
+. label define died 1 "patient died" 0 "patient alive" //variable labling for 1=dead patients, 0= live patients
+{txt}
+{com}. label define died 0 "patient alive" 1 "patient died", replace
+{txt}
+{com}. label values died died
+{txt}
+{com}. 
+. tabulate died // tabulating the variable died to get the frequncy of deaths
+
+ {txt}1 if patient {c |}
+         died {c |}      Freq.     Percent        Cum.
+{hline 14}{c +}{hline 35}
+patient alive {c |}{res}         17       35.42       35.42
+{txt} patient died {c |}{res}         31       64.58      100.00
+{txt}{hline 14}{c +}{hline 35}
+        Total {c |}{res}         48      100.00
+{txt}
+{com}. 
+. summarize studytime drug age died // getting descriptive data of variables ie obs, mean, SD, min, max
+
+{txt}    Variable {c |}       Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 56}
+{space 3}studytime {c |}{res}        48        15.5    10.25629          1         39
+{txt}{space 8}drug {c |}{res}        48       1.875    .8410986          1          3
+{txt}{space 9}age {c |}{res}        48      55.875    5.659205         47         67
+{txt}{space 8}died {c |}{res}        48    .6458333    .4833211          0          1
+{txt}
+{com}. 
+. summarize studytime died age, detail // getting additinal descriptive data including variance, skewness, kurtosis
+
+               {txt}Months to death or end of exp.
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        1              1
+{txt} 5%    {res}        2              1
+{txt}10%    {res}        4              2       {txt}Obs         {res}         48
+{txt}25%    {res}      7.5              3       {txt}Sum of Wgt. {res}         48
+
+{txt}50%    {res}     12.5                      {txt}Mean          {res}     15.5
+                        {txt}Largest       Std. Dev.     {res} 10.25629
+{txt}75%    {res}       23             33
+{txt}90%    {res}       32             34       {txt}Variance      {res} 105.1915
+{txt}95%    {res}       34             35       {txt}Skewness      {res} .5412136
+{txt}99%    {res}       39             39       {txt}Kurtosis      {res} 2.243608
+
+                      {txt}1 if patient died
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}         48
+{txt}25%    {res}        0              0       {txt}Sum of Wgt. {res}         48
+
+{txt}50%    {res}        1                      {txt}Mean          {res} .6458333
+                        {txt}Largest       Std. Dev.     {res} .4833211
+{txt}75%    {res}        1              1
+{txt}90%    {res}        1              1       {txt}Variance      {res} .2335993
+{txt}95%    {res}        1              1       {txt}Skewness      {res}-.6098496
+{txt}99%    {res}        1              1       {txt}Kurtosis      {res} 1.371917
+
+               {txt}Patient's age at start of exp.
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}       47             47
+{txt} 5%    {res}       48             48
+{txt}10%    {res}       49             48       {txt}Obs         {res}         48
+{txt}25%    {res}     50.5             49       {txt}Sum of Wgt. {res}         48
+
+{txt}50%    {res}       56                      {txt}Mean          {res}   55.875
+                        {txt}Largest       Std. Dev.     {res} 5.659205
+{txt}75%    {res}       60             65
+{txt}90%    {res}       65             67       {txt}Variance      {res}  32.0266
+{txt}95%    {res}       67             67       {txt}Skewness      {res} .3161066
+{txt}99%    {res}       67             67       {txt}Kurtosis      {res} 2.125197
+{txt}
+{com}. 
+. graph pie, over (died) //graphing variable died, on a pie chart
+{res}{txt}
+{com}. 
+. histogram studytime, normal //developing a histogram with normal distribution curve
+{txt}(bin={res}6{txt}, start={res}1{txt}, width={res}6.3333333{txt})
+{res}{txt}
+{com}. 
+. describe //describing data set
+
+{txt}Contains data from {res}C:\Program Files (x86)\Stata13\ado\base/c/cancer.dta
+{txt}  obs:{res}            48                          Patient Survival in Drug Trial
+{txt} vars:{res}             8                          3 Mar 2011 16:09
+{txt} size:{res}           576                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:studytime      }{txt}{bind: int     }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Months to death or end of exp.{p_end}
+{p 0 48}{bind:died           }{txt}{bind: int     }{bind:{txt}%13.0g    }{space 1}{bind:died     }{bind:  }{res}{res}1 if patient died{p_end}
+{p 0 48}{bind:drug           }{txt}{bind: int     }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Drug type (1=placebo){p_end}
+{p 0 48}{bind:age            }{txt}{bind: int     }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Patient's age at start of exp.{p_end}
+{p 0 48}{bind:_st            }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:_d             }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:_t             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:_t0            }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by:  
+
+{com}. 
+. reg studytime died drug age //regressing the model
+
+      {txt}Source {c |}       SS       df       MS              Number of obs ={res}      48
+{txt}{hline 13}{char +}{hline 30}           F(  3,    44) ={res}   15.23
+    {txt}   Model {char |} {res} 2518.43035     3  839.476782           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 2425.56965    44   55.126583           {txt}R-squared     = {res} 0.5094
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.4759
+    {txt}   Total {char |} {res}       4944    47  105.191489           {txt}Root MSE      = {res} 7.4247
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}   studytime{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}died {c |}{col 14}{res}{space 2}-1.348784{col 26}{space 2} 2.605081{col 37}{space 1}   -0.52{col 46}{space 3}0.607{col 54}{space 4}-6.598979{col 67}{space 3} 3.901412
+{txt}{space 8}drug {c |}{col 14}{res}{space 2} 7.389564{col 26}{space 2} 1.465653{col 37}{space 1}    5.04{col 46}{space 3}0.000{col 54}{space 4} 4.435735{col 67}{space 3} 10.34339
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-.4592797{col 26}{space 2} .1964027{col 37}{space 1}   -2.34{col 46}{space 3}0.024{col 54}{space 4}-.8551033{col 67}{space 3}-.0634562
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 28.17791{col 26}{space 2} 11.31692{col 37}{space 1}    2.49{col 46}{space 3}0.017{col 54}{space 4}  5.37016{col 67}{space 3} 50.98567
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. *the regression is insignificant*
+. 
+{txt}end of do-file
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\DELL\Desktop\Gitproject1\Example.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}11 Sep 2020, 14:20:00
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
